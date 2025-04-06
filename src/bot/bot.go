@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -33,11 +34,14 @@ func Run() {
 }
 
 func newMessage(discord *discordgo.Session, message *discordgo.MessageCreate) {
-	if message.Author.ID == discord.State.User.ID {
+	if message.Author.ID == discord.State.User.ID || message.Content[0] != '!' {
 		return
 	}
 
-	if message.Content == "!ping" {
-		discord.ChannelMessageSend(message.ChannelID, "Pong")
+	command := strings.ToLower(message.Content[1:])
+
+	switch command {
+	case "ping":
+		discord.ChannelMessageSendReply(message.ChannelID, "pong", message.Reference())
 	}
 }
