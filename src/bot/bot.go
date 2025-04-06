@@ -11,6 +11,9 @@ import (
 )
 
 func Run(token string) {
+	if token == "" {
+		log.Fatal("Bot token missing")
+	}
 	discord, err := discordgo.New("Bot " + token)
 	if err != nil {
 		log.Fatal("Error:", err)
@@ -22,7 +25,7 @@ func Run(token string) {
 	discord.Open()
 	defer discord.Close()
 
-	fmt.Println("Bot runing")
+	fmt.Println("Bot is now running. Press CTRL+C to exit")
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	<-c
