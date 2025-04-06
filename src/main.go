@@ -15,6 +15,5 @@ func main() {
 		log.Println("Error with setting env", err)
 	}
 
-	bot.BotToken = os.Getenv("token")
-	bot.Run()
+	bot.Run(os.Getenv("token"))
 }
